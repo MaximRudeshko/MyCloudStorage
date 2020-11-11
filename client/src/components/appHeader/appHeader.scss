@@ -1,0 +1,48 @@
+@import '../../index.scss';
+
+.header{
+    background: #fff;
+    padding: 8px 50px;
+    box-shadow: 0px 3px 4px rgba(92, 92, 92, 0.25);
+    &__wrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__logo{
+        display: flex;
+        align-items: center;
+        
+        img{
+            width: 63px;
+            height: 34px;
+        }
+        span{
+            font-weight: 700;
+            font-size: 20px;
+            margin-left: -5px;
+            color: $mainFontColor;
+            text-transform: uppercase;
+        }
+    }
+    &__nav{        
+        ul{
+            display: flex;
+            justify-content: space-between;
+            list-style-type: none;
+            li{
+                &:first-child{
+                    margin-right: 27px;
+                }
+            }
+            a{
+                text-decoration: none;
+                color: $mainFontColor;
+                font-weight: 700;
+                &:hover{
+                    text-decoration: underline; 
+                }
+            }
+        }
+    }
+}

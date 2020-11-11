@@ -1,0 +1,48 @@
+@import '../../index.scss';
+
+.auth__register{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 35px;
+    background: #fff;
+    padding: 25px 33px 34px 33px;
+    border-radius: 27px;
+    p{
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: $mainFontColor;
+        margin-bottom: 43px;
+    }
+    input{
+        margin-bottom: 16px;
+        padding: 5px 10px;
+        border: 0;
+        border-bottom: 3px solid #566885;
+        width: 471px;
+        outline:none;
+        font-weight: 700;
+        font-size: 18px;
+        color:$mainFontColor;
+        &::placeholder{
+            color:$mainFontColor;
+        }
+        &:last-child{
+            margin-bottom: 35px;
+        }
+    }
+    button{
+        padding: 2px 30px 4px 25px;
+        border-radius:12px;
+        align-self: flex-end;
+        border:0;
+        outline:none;
+        font-weight: 700;
+        font-size: 22px;
+        color:#fff;
+        line-height:25,78px;
+        background: $mainFontColor;
+        cursor: pointer;
+    }
+    
+}
