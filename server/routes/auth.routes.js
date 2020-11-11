@@ -3,6 +3,8 @@ const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const {check, validationResult} = require("express-validator")
 const router = new Router()
+const jst = require('jsonwebtoken')
+const config = require('config')
 
 
 router.post('/registration',
@@ -12,7 +14,6 @@ router.post('/registration',
     ],
     async (req, res) => {
     try {
-        console.log(req.body)
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.status(400).json({message: "Uncorrect request", errors})
@@ -32,6 +33,45 @@ router.post('/registration',
 
     } catch (e) {
         console.log(e)
+        res.send({message: "Server error"})
+    }
+})
+
+
+router.post('/login', async (req, res) => {
+    try {
+        
+        const {email, password} = req.body
+
+        const user = await User.findOne({email})
+
+
+        if(!user){
+            return res.status(400).json({message: 'User not found'})
+        }
+
+        const isPassValid = bcrypt.compareSync(password, user.password)
+
+        if(!isPassValid){
+            return res.status(400).json({message: 'Invalid password'})
+        }
+
+        const token = jst.sign({id: user.id}, config.get('secret-key'), {expiresIn: '1h'})
+
+        return res.json({
+            token, 
+            user : {
+                id: user.id,
+                email: user.email,
+                diskSpace: user.diskSpace,
+                usedSpace: user.usedSpace,
+                avatar: user.avatar
+            }
+        })
+
+
+    } catch (error) {
+        console.log(error)
         res.send({message: "Server error"})
     }
 })
