@@ -1,10 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux'
 
 import logo from '../../assets/img/app-logo.svg'
 import './appHeader.scss'
+import { logOut } from '../../redux/actions/user';
 
 const AppHeader = () => {
+
+    const {isAuth} = useSelector(state => state.user)
+
+    const dispatch = useDispatch()
+
     return (
         <header className = 'header'>
             <div className = 'container'>
@@ -15,12 +22,9 @@ const AppHeader = () => {
                     </div>
                     <nav className = 'header__nav'>
                         <ul>
-                            <li>
-                                <NavLink to = '/login'>Войти</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to = '/register'>Зарегистрироваться</NavLink>
-                            </li>
+                            {!isAuth && <li><NavLink to = '/login'>Войти</NavLink></li>}
+                            {!isAuth && <li><NavLink to = '/register'>Зарегистрироваться</NavLink></li>}
+                            {isAuth && <li><a onClick = {() => dispatch(logOut())}>Выйти</a></li>}
                         </ul>
                     </nav>
                 </div>

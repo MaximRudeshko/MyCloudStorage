@@ -1,4 +1,5 @@
 import React from 'react';
+import login from '../../services/login';
 import registration from '../../services/registration';
 import { Input } from '../input';
 
@@ -10,8 +11,6 @@ const RegisterForm = () => {
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
-
-
 
     return (
         <div className = 'auth__register'>
