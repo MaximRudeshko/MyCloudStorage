@@ -1,5 +1,6 @@
 {
     "serverPort": "5001",
     "dbURL": "mongodb+srv://maxim:147741@cluster0.7cgbf.mongodb.net/CloudStorage1?retryWrites=true&w=majority",
-    "secret-key": "secret-key"
+    "secret-key": "secret-key",
+    "filesPath": "C:\\Users\\alesy\\Desktop\\cloud-storage\\server\\files"
 }

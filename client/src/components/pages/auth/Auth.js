@@ -6,7 +6,6 @@ import {LoginForm} from '../../loginForm'
 
 import './auth.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import auth from '../../../services/auth';
 import { onAuth } from '../../../redux/actions/user';
 
 const Auth = () => {
@@ -22,7 +21,7 @@ const Auth = () => {
         <div className = 'auth'>
             {!isAuth && 
                 <Switch>
-                    <Route path = '/login' component = {LoginForm}/>
+                    <Route path = {['/login', '/']} component = {LoginForm} exact/>
                     <Route path = '/register' component = {RegisterForm}/>
                 </Switch>
             }

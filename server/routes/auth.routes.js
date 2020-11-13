@@ -6,6 +6,8 @@ const router = new Router()
 const jwt = require('jsonwebtoken')
 const config = require('config')
 const authMiddleware = require('../middleware/auth.middleware')
+const fileService = require('../services/fileService')
+const File = require('../models/file')
 
 
 router.post('/registration',
@@ -30,6 +32,7 @@ router.post('/registration',
         const hashPassword = await bcrypt.hash(password, 15)
         const user = new User({email, password: hashPassword, name, lastName})
         await user.save()
+        await fileService.createDir(new File({user: user.id, name: ''}))
         return res.json({message: "User was created"})
 
     } catch (e) {
@@ -79,7 +82,6 @@ router.get('/auth', authMiddleware, async (req, res) => {
     try {
         const user = await User.findOne({_id: req.user.id})
         const token = jwt.sign({id: user.id}, config.get('secret-key'), {expiresIn: '1h'})
-        console.log(user, token)
         return res.json({
             token,
             user: {
