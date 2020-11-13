@@ -1,3 +1,6 @@
-.auth-container{
-    height:calc(100% - 50px)
+.home-container{
+    height:calc(100% - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

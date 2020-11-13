@@ -1,0 +1,62 @@
+@import '../../index.scss';
+
+.disk{
+    height: 100%;
+    width: 100%;
+    color: $mainFontColor;
+    padding: 30px 10px;
+
+    &__category{
+        text-align: center;
+    }
+
+    &__actions{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &-left{
+            display: flex;
+            flex-direction: column;
+            .disk__actions-back{
+                width: 60px;
+                height: 60px;
+                margin-bottom: 18px;
+                cursor:pointer;
+                img{
+                    min-width:100%;
+                    height: 100%;
+                }
+            }
+        }
+        &-create{
+            border:1px solid $mainFontColor;
+            padding: 8px;
+            border-radius:14px;
+            margin-bottom: 20px;
+            cursor:pointer;
+        }
+        &-right{
+            display: flex;
+            align-items: center;
+            width: 200px;
+            justify-content: space-between;
+        }
+        &-sorting{
+            display: flex;
+            cursor:pointer;
+            span{
+                margin-right: 6px;
+            }
+        }
+        &-grids{
+            display: flex;
+            width: 60px;
+            justify-content: space-between;
+            img{
+                cursor:pointer;
+            }
+        }
+
+        
+    }
+}

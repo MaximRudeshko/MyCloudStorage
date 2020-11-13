@@ -4,7 +4,7 @@ import userReducer from './userReducer'
 
 
 const rootReducer = combineReducers({
-    file: fileReducer,
+    files: fileReducer,
     user: userReducer
 })
 

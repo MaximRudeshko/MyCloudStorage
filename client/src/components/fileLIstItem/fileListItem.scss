@@ -1,0 +1,32 @@
+@import '../../index.scss';
+
+.file{
+    display:grid;
+    grid-template-columns: 1fr 4fr repeat(4, 1fr);
+    margin: 20px 0;
+    padding: 10px 0;
+    align-items: center;
+    border-bottom: 2px solid $mainFontColor;
+    cursor:pointer;
+
+    &:hover{
+        transform: scale(1.1);;
+    }
+
+    &__img{
+        grid-column-start: 1;
+        
+    }
+    &__name{
+        grid-column-start: 2;
+        
+    }
+    &__date{
+        grid-column-start:5;
+        justify-self: center;
+    }
+    &__size{
+        grid-column-start:6;
+        justify-self: center;
+    }
+}

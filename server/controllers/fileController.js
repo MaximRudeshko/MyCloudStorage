@@ -30,7 +30,7 @@ class FileController{
         try {
             const files = await File.find({user: req.user.id, parent: req.query.parent})
             console.log(req.query.parent)
-            return res.json({files})
+            return res.json(files)
         } catch (error) {
             console.log(error)
         }
