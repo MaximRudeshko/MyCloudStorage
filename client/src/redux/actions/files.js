@@ -1,4 +1,3 @@
-import {getFiles} from '../../services/files'
 import axios from 'axios'
 
 const setFiles = files => {
@@ -14,6 +13,23 @@ export const addFile = file => {
         payload: file
     }
 }
+
+ export const createFile = (name, type, parent) => async dispatch =>  {
+
+    try {
+        const response = await axios.post('http://localhost:5001/api/files', {
+            name,
+            type,
+            parent
+        }, {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}})
+
+        dispatch(addFile(response.data))
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 
 export const fetchFiles = dirId => async dispatch =>  {
     try {
