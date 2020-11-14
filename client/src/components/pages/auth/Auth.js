@@ -7,7 +7,7 @@ import {LoginForm} from '../../loginForm'
 import './auth.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { onAuth } from '../../../redux/actions/user';
-import { Disk } from '../../Disk';
+import { Disk } from '../../disk';
 
 const Auth = () => {
 

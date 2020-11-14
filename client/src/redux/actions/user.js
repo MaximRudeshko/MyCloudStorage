@@ -1,6 +1,4 @@
-import auth from "../../services/auth"
-import login from "../../services/login"
-
+import axios from 'axios'
 
 
 const setUser = (user) => {
@@ -10,19 +8,33 @@ const setUser = (user) => {
     }
 }
 
-export const onLogin = (email, password) => dispatch => {
-     login(email, password).then(data => {
-        dispatch(setUser(data.user))
-        localStorage.setItem('token', data.token)
-    })
+export const onLogin = (email, password) => async dispatch => {
+    try {
+        const response = await axios.post('http://localhost:5001/api/auth/login', {
+            email, 
+            password
+        })
+        dispatch(setUser(response.data.user))
+        console.log(response.data)
+        localStorage.setItem('token', response.data.token)
+    } catch (error) {
+        console.log(error)
+        // catch errors....
+    }
 }
 
-export const onAuth = () => dispatch => {
-    auth()
-    .then(data => {
-         dispatch(setUser(data.user))
-    })
-    .catch((e) => console.log(e))
+export const onAuth = () => async dispatch => {
+    try {
+        const response = await axios.get(`http://localhost:5001/api/auth/auth`,
+                {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
+            )
+        localStorage.setItem('token', response.data.token)
+        dispatch(setUser(response.data.user))
+    } catch (error) {
+        localStorage.removeItem('token')
+        console.log(error)
+        //catch errors...
+    }
 }
 
 export const logOut = () => {

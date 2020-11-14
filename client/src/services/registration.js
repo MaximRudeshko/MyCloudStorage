@@ -11,6 +11,7 @@ const registration = async (email, password, name, lastName) => {
     )
 
     alert(res.data.message)
+    //need create component with notification about ...
     } catch (error) {
         alert(error)
     }

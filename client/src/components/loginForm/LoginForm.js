@@ -1,9 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { onLogin, setUser } from '../../redux/actions/user';
+import { onLogin} from '../../redux/actions/user';
 import { Input } from '../input';
-
-import login from '../../services/login'
 
 import './loginForm.scss'
 

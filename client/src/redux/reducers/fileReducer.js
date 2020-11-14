@@ -18,6 +18,11 @@ const fileReducer = (state = initialState, action) => {
                 ...state,
                 currentDirectory: action.paylod
             }
+        case 'ADD_FILE':
+            return {
+                ...state,
+                files: [...state.files, action.payload]
+            }
         default:
             return state
     }
