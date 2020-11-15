@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createFile, fetchFiles } from '../../redux/actions/files'
+import { createFile, fetchFiles, setPopupVisible } from '../../redux/actions/files'
 import  FileList  from '../fileList';
 import arrowBack from '../../assets/img/back-arrow.svg'
 import arrowDown from '../../assets/img/arrow-down.svg'
@@ -10,6 +10,7 @@ import grid3 from '../../assets/img/grid3.svg'
 
 import './disk.scss'
 import SortIndicator from '../sortIndicator/SortIndicator';
+import Popup from '../popup/Popup';
 
 
 const Disk = () => {
@@ -32,7 +33,7 @@ const Disk = () => {
                     <div className = 'disk__actions-back'>
                         <img src = {arrowBack} alt = 'arrow back'/>
                     </div>
-                    <div onClick = {() => dispatch(createFile('1234', 'dir'))} className = 'disk__actions-create'>
+                    <div onClick = {() => dispatch(setPopupVisible(true))} className = 'disk__actions-create'>
                         Создать новую папку
                     </div>
                 </div>
@@ -50,6 +51,7 @@ const Disk = () => {
                 </div>
             </div>
             <FileList files = {files}/>
+            <Popup/>
         </div>
     );
 }

@@ -1,0 +1,19 @@
+@import '../../index.scss';
+
+input{
+    margin-bottom: 16px;
+    padding: 5px 10px;
+    border: 0;
+    border-bottom: 3px solid #566885;
+    width: 471px;
+    outline:none;
+    font-weight: 700;
+    font-size: 18px;
+    color:$mainFontColor;
+    &::placeholder{
+        color:$mainFontColor;
+    }
+    &:last-child{
+        margin-bottom: 35px;
+    }
+}

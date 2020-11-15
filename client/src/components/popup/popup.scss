@@ -1,0 +1,49 @@
+.popup{
+    width: 100%;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, .5);
+    
+    &-hidden{
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &-visible{
+        visibility: visible;
+        opacity:1;
+    }
+    &__content{
+        padding: 30px;
+        background:#fff;
+        border-radius:12px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 35px;
+        p{
+            font-weight: 700;
+            font-size: 28px;
+        }
+        img{
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+        }
+    }
+
+    button{
+        align-self: flex-end;
+    }
+}

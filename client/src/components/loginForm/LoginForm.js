@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { onLogin} from '../../redux/actions/user';
+import { Button } from '../button';
 import { Input } from '../input';
 
 import './loginForm.scss'
@@ -19,7 +20,8 @@ const LoginForm = () => {
             <p>Авторизация</p>
             <Input setValue= {setEmail} value = {email} placeholder = 'Введите адрес электронной почты...'/>
             <Input setValue= {setPassword} value = {password} placeholder = 'Введите пароль...'/>
-            <button onClick = {() => dispatch(onLogin(email, password))}>Войти</button>
+            {/* <button onClick = {() => dispatch(onLogin(email, password))}>Войти</button> */}
+            <Button text = 'Войти' onClick = {() => dispatch(onLogin(email, password))} />
         </div>
     );
 }

@@ -14,24 +14,8 @@
         color: $mainFontColor;
         margin-bottom: 43px;
     }
-    input{
-        margin-bottom: 16px;
-        padding: 5px 10px;
-        border: 0;
-        border-bottom: 3px solid #566885;
-        width: 471px;
-        outline:none;
-        font-weight: 700;
-        font-size: 18px;
-        color:$mainFontColor;
-        &::placeholder{
-            color:$mainFontColor;
-        }
-        &:last-child{
-            margin-bottom: 35px;
-        }
-    }
-    button{
+    
+/*     button{
         padding: 2px 30px 4px 25px;
         border-radius:12px;
         align-self: flex-end;
@@ -43,6 +27,6 @@
         line-height:25,78px;
         background: $mainFontColor;
         cursor: pointer;
-    }
+    } */
     
 }

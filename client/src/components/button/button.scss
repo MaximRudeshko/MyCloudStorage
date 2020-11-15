@@ -1,0 +1,15 @@
+@import '../../index.scss';
+
+button{
+    padding: 2px 30px 4px 25px;
+    border-radius:12px;
+    align-self: flex-end;
+    border:0;
+    outline:none;
+    font-weight: 700;
+    font-size: 22px;
+    color:#fff;
+    line-height:25,78px;
+    background: $mainFontColor;
+    cursor: pointer;
+}

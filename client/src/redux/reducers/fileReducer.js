@@ -1,6 +1,7 @@
 const initialState = {
     files: [],
-    currentDirectory: null
+    currentDirectory: null,
+    isPopupVisible: false
 }
 
 
@@ -23,6 +24,13 @@ const fileReducer = (state = initialState, action) => {
                 ...state,
                 files: [...state.files, action.payload]
             }
+        case 'SET_POPUP_VISIBLE': {
+            return {
+                ...state,
+                isPopupVisible: action.payload
+
+            }
+        }
         default:
             return state
     }

@@ -14,12 +14,12 @@ export const addFile = file => {
     }
 }
 
- export const createFile = (name, type, parent) => async dispatch =>  {
+ export const createFile = (name, parent) => async dispatch =>  {
 
     try {
         const response = await axios.post('http://localhost:5001/api/files', {
             name,
-            type,
+            type: 'dir',
             parent
         }, {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}})
 
@@ -42,6 +42,15 @@ export const fetchFiles = dirId => async dispatch =>  {
         console.log(error)
     }
 }
+
+export const setPopupVisible = val => {
+    return {
+        type: 'SET_POPUP_VISIBLE',
+        payload: val
+    }
+}
+
+
 
 
 /* export const getFiles = async dirId => {
