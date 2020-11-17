@@ -1,10 +1,12 @@
 import React from 'react';
-import FileListITem from '../fileLIstItem/FileListITem';
+import { useSelector } from 'react-redux';
+import FileListItem from '../fileLIstItem/FileListITem';
 
 import './fileList.scss'
 
-const FileList = ({files}) => {
+const FileList = () => {
 
+    const files = useSelector(state => state.files.files).map(file => <FileListItem key = {file._id} file = {file}/>) 
     
     return (
         <div className = 'filelist'>
@@ -13,9 +15,7 @@ const FileList = ({files}) => {
                 <div className="filelist__date">Дата</div>
                 <div className="filelist__size">Размер</div>
             </div>
-            {
-                files.map(file => <FileListITem file = {file}/>)
-            }
+            {files}
         </div>
     );
 }

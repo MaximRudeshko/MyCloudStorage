@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createFile, fetchFiles, setPopupVisible } from '../../redux/actions/files'
+import { createFile, fetchFiles, setCurrentDir, setPopupVisible } from '../../redux/actions/files'
 import  FileList  from '../fileList';
 import arrowBack from '../../assets/img/back-arrow.svg'
 import arrowDown from '../../assets/img/arrow-down.svg'
@@ -16,12 +16,18 @@ import Popup from '../popup/Popup';
 const Disk = () => {
 
     const dispatch = useDispatch()
-    const {currentDirectory, files} = useSelector(state => state.files)
+    const {currentDirectory, dirStack} = useSelector(state => state.files)
  
 
     React.useEffect(() => {
       dispatch(fetchFiles(currentDirectory))
     }, [currentDirectory])
+
+
+   function backDirHandler () {
+        const dirId = dirStack.pop();
+        dispatch(setCurrentDir(dirId))
+    }
     
 
 
@@ -30,8 +36,10 @@ const Disk = () => {
             <h2 className = 'disk__category'>Category</h2>
             <div className = 'disk__actions'>
                 <div className = 'disk__actions-left'>
-                    <div className = 'disk__actions-back'>
-                        <img src = {arrowBack} alt = 'arrow back'/>
+                    <div 
+                        onClick = {() => backDirHandler() }
+                        className = 'disk__actions-back'>
+                            <img src = {arrowBack} alt = 'arrow back'/>
                     </div>
                     <div onClick = {() => dispatch(setPopupVisible(true))} className = 'disk__actions-create'>
                         Создать новую папку
@@ -50,7 +58,7 @@ const Disk = () => {
                     </div>
                 </div>
             </div>
-            <FileList files = {files}/>
+            <FileList/>
             <Popup/>
         </div>
     );

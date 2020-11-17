@@ -50,6 +50,20 @@ export const setPopupVisible = val => {
     }
 }
 
+export const setCurrentDir = dirId => {
+    return{
+        type: 'SET_CURRENT_DIRECTORY',
+        payload: dirId
+    }
+}
+
+export const pushToStack = dirId => {
+    return {
+        type: 'PUSH_DIR_TO_STACK',
+        payload: dirId
+    }
+}
+
 
 
 
