@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createFile, fetchFiles, setCurrentDir, setPopupVisible } from '../../redux/actions/files'
+import { createFile, fetchFiles, setCurrentDir, setPopupVisible, uploadFile } from '../../redux/actions/files'
 import  FileList  from '../fileList';
 import arrowBack from '../../assets/img/back-arrow.svg'
 import arrowDown from '../../assets/img/arrow-down.svg'
@@ -28,6 +28,12 @@ const Disk = () => {
         const dirId = dirStack.pop();
         dispatch(setCurrentDir(dirId))
     }
+
+
+    const uploadFilesHandler = (event) => {
+        const files = [...event.target.files]
+        files.forEach(file => dispatch(uploadFile(file, currentDirectory)))
+    }
     
 
 
@@ -43,6 +49,10 @@ const Disk = () => {
                     </div>
                     <div onClick = {() => dispatch(setPopupVisible(true))} className = 'disk__actions-create'>
                         Создать новую папку
+                    </div>
+                    <div className = 'disk__action-upload'>
+                        <label className = 'disk__actions-upload-label' htmlFor = 'disk-input'>Загрузить файл</label>
+                        <input onChange = {event => uploadFilesHandler(event)} multiple = {true} className = 'disk__actions-upload-input' type = 'file' id = 'disk-input'/>
                     </div>
                 </div>
                 <div className = 'disk__actions-right'>

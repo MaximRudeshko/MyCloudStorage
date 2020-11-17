@@ -35,6 +35,16 @@
             margin-bottom: 20px;
             cursor:pointer;
         }
+        &-upload{
+            &-input{
+                display: none;
+            }
+            &-label{
+                padding: 10px;
+                border: 2px dashed $mainFontColor;
+            }
+        }
+
         &-right{
             display: flex;
             align-items: center;
