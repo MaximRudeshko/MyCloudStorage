@@ -1,0 +1,38 @@
+.uploader-item{
+    $self: &;
+    &__header{
+        display: flex;
+        height: 30px;
+        justify-content: space-between;
+        img{
+            height: 15px;
+            width: 15px;
+            cursor: pointer;
+        }
+        #{$self}__name{
+            font-size: 14px;
+            width: 90%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+
+    &__progress-bar{
+        background:grey;
+        height: 40px;
+        width:100%;
+        display: flex;
+        align-items: center;
+        #{$self}__upload-bar{
+            background:greenyellow;
+            height:100%;
+        }
+        #{$self}__percent{
+            position: absolute;
+            left: 50%;
+            color:#fff;
+            transform: translateX(-50%);
+        }
+    }
+}

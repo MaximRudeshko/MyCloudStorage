@@ -12,13 +12,17 @@ import './disk.scss'
 import SortIndicator from '../sortIndicator/SortIndicator';
 import Popup from '../popup/Popup';
 import { EmptyDir } from '../emptyDir';
+import Uploader from '../uploader/Uploader';
 
 
 const Disk = () => {
 
     const dispatch = useDispatch()
     const {files, currentDirectory, dirStack} = useSelector(state => state.files)
+    const {isVisible} = useSelector(state => state.uploader)
     const [dragEnter, setDragEnter] = React.useState(false)
+
+    console.log(isVisible)
  
 
     React.useEffect(() => {
@@ -93,6 +97,7 @@ const Disk = () => {
             </div>
             {files.length > 0 ? <FileList/> : <EmptyDir/>}
             <Popup/>
+            {isVisible && <Uploader/>}
         </div>
         : 
         <div 
