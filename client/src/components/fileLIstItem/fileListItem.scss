@@ -22,8 +22,16 @@
             justify-self: center;
         }
 
-        button{
+        #{$self}__btn{
             display: block;
+            margin-left: 10px;
+            &:first-child{
+                grid-column-start:5;
+                
+            }
+            &:last-child{
+                grid-column-start:6;
+            }
         }
     }
 
@@ -43,8 +51,10 @@
         grid-column-start:6;
         justify-self: center;
     }
-    button{
+    &__btn{
         display: none;
+        width: 30px;
+        height: 30px;
     }
 
 }

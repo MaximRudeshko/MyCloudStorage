@@ -90,6 +90,22 @@ export const downloadFile = async (file) =>  {
     }
 }
 
+export const deleteFile = (file) => async dispatch => {
+    try {
+        const response = await axios.delete(`http://localhost:5001/api/files?id=${file._id}`,{
+            headers:{
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        dispatch(deleteFileAction(file._id))
+        alert(response.data.message)
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 
 export const setPopupVisible = val => {
     return {
@@ -109,6 +125,13 @@ export const pushToStack = dirId => {
     return {
         type: 'PUSH_DIR_TO_STACK',
         payload: dirId
+    }
+}
+
+const deleteFileAction = file => {
+    return {
+        type: 'DELETE_FILE',
+        payload: file
     }
 }
 
