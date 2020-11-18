@@ -22,6 +22,11 @@ class FileService{
             }
         })
     }
+
+
+    getPath(file){
+        return config.get('filesPath') + '\\' + file.user + '\\' + file.path
+    }
 }
 
 module.exports = new FileService()

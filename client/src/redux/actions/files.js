@@ -43,7 +43,7 @@ export const fetchFiles = dirId => async dispatch =>  {
     }
 }
 
-export function uploadFile(file, dirId) {
+export const uploadFile = (file, dirId) => {
     return async dispatch => {
         try {
             const formData = new FormData()
@@ -51,6 +51,8 @@ export function uploadFile(file, dirId) {
             if (dirId) {
                 formData.append('parent', dirId)
             }
+
+            console.log(formData)
             const response = await axios.post(`http://localhost:5001/api/files/upload`, formData, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                 onUploadProgress: progressEvent => {
@@ -70,6 +72,24 @@ export function uploadFile(file, dirId) {
         }
     }
 }
+
+export const downloadFile = async (file) =>  {
+    const response = await fetch(`http://localhost:5001/api/files/download?id=${file._id}`, {
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+    })
+
+    if(response.status === 200){
+        const blob = await response.blob()
+        const downloadUrl = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = downloadUrl
+        link.download = file.name
+        document.body.appendChild(link)
+        link.click()
+        link.remove() 
+    }
+}
+
 
 export const setPopupVisible = val => {
     return {
