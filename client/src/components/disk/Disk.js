@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createFile, fetchFiles, setCurrentDir, setPopupVisible, uploadFile } from '../../redux/actions/files'
+import { fetchFiles, setCurrentDir, setPopupVisible, uploadFile } from '../../redux/actions/files'
 import  FileList  from '../fileList';
 import arrowBack from '../../assets/img/back-arrow.svg'
 import arrowDown from '../../assets/img/arrow-down.svg'
@@ -11,12 +11,14 @@ import grid3 from '../../assets/img/grid3.svg'
 import './disk.scss'
 import SortIndicator from '../sortIndicator/SortIndicator';
 import Popup from '../popup/Popup';
+import { EmptyDir } from '../emptyDir';
 
 
 const Disk = () => {
 
     const dispatch = useDispatch()
-    const {currentDirectory, dirStack} = useSelector(state => state.files)
+    const {files, currentDirectory, dirStack} = useSelector(state => state.files)
+    const [dragEnter, setDragEnter] = React.useState(false)
  
 
     React.useEffect(() => {
@@ -24,33 +26,54 @@ const Disk = () => {
     }, [currentDirectory])
 
 
-   function backDirHandler () {
+    const backDirHandler = () => {
         const dirId = dirStack.pop();
         dispatch(setCurrentDir(dirId))
     }
-
 
     const uploadFilesHandler = (event) => {
         const files = [...event.target.files]
         files.forEach(file => dispatch(uploadFile(file, currentDirectory)))
     }
-    
 
+    const dragEnterHandler = event => {
+        event.stopPropagation()
+        event.preventDefault()
+        setDragEnter(true)
+    }
 
-    return (
-        <div className = 'disk'>
+    const dragLeaveHandler = event => {
+        event.stopPropagation()
+        event.preventDefault()
+        setDragEnter(false)
+    }
+
+    const dropHandler = event => {
+        event.preventDefault()
+        event.stopPropagation()
+        setDragEnter(false)
+        const files = [...event.dataTransfer.files]
+        files.forEach(file => dispatch(uploadFile(file, currentDirectory)))
+    }
+
+    return (!dragEnter ?   
+        <div className = 'disk' onDragEnter = {dragEnterHandler} onDragLeave= { dragLeaveHandler} onDragOver = {dragEnterHandler}>
             <h2 className = 'disk__category'>Category</h2>
             <div className = 'disk__actions'>
                 <div className = 'disk__actions-left'>
-                    <div 
-                        onClick = {() => backDirHandler() }
-                        className = 'disk__actions-back'>
-                            <img src = {arrowBack} alt = 'arrow back'/>
+                    <div className = 'disk__actions-btns'>
+                        {currentDirectory && 
+                            <div 
+                                onClick = {() => backDirHandler() }
+                                className = 'disk__actions-back'>
+                                    <img src = {arrowBack} alt = 'arrow back'/>
+                            </div>  
+                        }
+                        <div onClick = {() => dispatch(setPopupVisible(true))} className = 'disk__actions-create'>
+                            Создать новую папку
+                        </div>
                     </div>
-                    <div onClick = {() => dispatch(setPopupVisible(true))} className = 'disk__actions-create'>
-                        Создать новую папку
-                    </div>
-                    <div className = 'disk__action-upload'>
+                    <div className = 'disk__actions-upload'>
                         <label className = 'disk__actions-upload-label' htmlFor = 'disk-input'>Загрузить файл</label>
                         <input onChange = {event => uploadFilesHandler(event)} multiple = {true} className = 'disk__actions-upload-input' type = 'file' id = 'disk-input'/>
                     </div>
@@ -68,8 +91,17 @@ const Disk = () => {
                     </div>
                 </div>
             </div>
-            <FileList/>
+            {files.length > 0 ? <FileList/> : <EmptyDir/>}
             <Popup/>
+        </div>
+        : 
+        <div 
+            className = 'disk__drop-area' 
+            onDrop = {dropHandler} 
+            onDragEnter = {dragEnterHandler} 
+            onDragLeave= { dragLeaveHandler} 
+            onDragOver = {dragEnterHandler}>
+                Перетащите файлы сюда
         </div>
     );
 }

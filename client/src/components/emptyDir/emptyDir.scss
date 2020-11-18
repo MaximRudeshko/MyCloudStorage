@@ -1,0 +1,14 @@
+.disk__empty{
+    height: auto;
+    width:100%;
+    flex: 1 0 auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    & > div{
+        margin-bottom: 100px;
+    }
+    img{
+        height:100px;
+    }
+}
