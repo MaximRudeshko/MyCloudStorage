@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const File = require('../models/file')
 const config = require('config')
 
@@ -6,7 +7,6 @@ class FileService{
 
     createDir(file){
         const filePath = `${config.get('filesPath')}\\${file.user}\\${file.path}`
-        console.log(filePath)
 
         return new Promise((resolve, reject) => {
             try {
@@ -23,8 +23,24 @@ class FileService{
         })
     }
 
+    /* deleteFolderRecursive(file) {
+        const path = this.getPath(file)
+        if (fs.existsSync(path)) {
+          fs.readdirSync(path).forEach((file, index) => {
+            const curPath = Path.join(path, file);
+            if (fs.lstatSync(curPath).isDirectory()) { // recurse
+              deleteFolderRecursive(curPath);
+            } else { // delete file
+              fs.unlinkSync(curPath);
+            }
+          });
+          fs.rmdirSync(path);
+        }
+      }; */
+
     deleteFile(file){
         const path = this.getPath(file)
+        console.log(path)
         if(file.type === 'dir'){
             fs.rmdirSync(path)
         }else{

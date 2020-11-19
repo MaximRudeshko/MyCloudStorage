@@ -18,7 +18,6 @@ class FileController{
             } else {
                 file.path = `${parentFile.path}\\${file.name}`
                 await fileService.createDir(file)
-                console.log(parentFile)
                 parentFile.childs.push(file._id)
                 await parentFile.save()
             }
@@ -26,7 +25,6 @@ class FileController{
             return res.json(file)
         } catch (e) {
             console.log(e)
-            return res.status(400).json(e)
         }
     }
 
