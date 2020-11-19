@@ -24,7 +24,7 @@ const uploaderReducer = (state = initialState, action) => {
         case 'REMOVE_FILE_FROM_UPLOADER':
             return{
                 ...state,
-                files: [...state.files, action.payload]
+                files: [...state.files.filter(file => file.name !== action.payload.name)]
             }
         case 'CHANGE_UPLOAD_FILE': {
             return{

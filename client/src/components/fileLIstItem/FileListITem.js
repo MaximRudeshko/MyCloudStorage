@@ -8,6 +8,7 @@ import downloadSvg from '../../assets/img/download.svg'
 import trashSvg from '../../assets/img/trash.svg'
 
 import './fileListItem.scss'
+import { removeFileFRomUploader } from '../../redux/actions/uploader';
 
 const FileListITem = ({file}) => {
     const dispatch = useDispatch()
@@ -26,12 +27,12 @@ const FileListITem = ({file}) => {
 
     const deleteFileHandler = (event) => {
         event.stopPropagation()
-        console.log(file)
         dispatch(deleteFile(file))
+        dispatch(removeFileFRomUploader(file))
     }
 
     return (
-        <div className = 'file' onClick = {file.type === 'dir' ? openDirHandler : ''}>
+        <div className = 'file' onClick = {file.type === 'dir' ? openDirHandler : null}>
             <img src = {file.type === 'dir' ? folder : fileSvg } alt = 'file-pic' className = 'file__img' />
             <div className = 'file__name'>{file.name}</div>
             <div className = 'file__date'>{file.date.slice(0, 10)}</div>

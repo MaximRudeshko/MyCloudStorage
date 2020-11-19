@@ -61,15 +61,12 @@ export const uploadFile = (file, dirId) => {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                 onUploadProgress: progressEvent => {
                     const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-                    console.log('total', totalLength)
                     if (totalLength) {
                         uploadFile.progress = Math.round((progressEvent.loaded * 100) / totalLength)
                         dispatch(changeUploaderFile(uploadFile))
                     }
                 }
             });
-
-            console.log(response)
             dispatch(addFile(response.data))
         } catch (e) {
             alert(e.response.data.message)

@@ -19,7 +19,7 @@ const Uploader = () => {
         <div className = 'uploader'>
             <div className = 'uploader__header'>
                 <div className = 'uploader__title'>Загрузки</div>
-                <img src = {close} alt = 'close svg'/>
+                <img src = {close} alt = 'close svg' onClick = {hideUploaderHandler}/>
             </div>
             <div className = 'uploader__items'>
                     {

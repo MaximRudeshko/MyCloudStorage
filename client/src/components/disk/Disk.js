@@ -20,10 +20,7 @@ const Disk = () => {
     const dispatch = useDispatch()
     const {files, currentDirectory, dirStack} = useSelector(state => state.files)
     const {isVisible} = useSelector(state => state.uploader)
-    const [dragEnter, setDragEnter] = React.useState(false)
-
-    console.log(isVisible)
- 
+    const [dragEnter, setDragEnter] = React.useState(false) 
 
     React.useEffect(() => {
       dispatch(fetchFiles(currentDirectory))
