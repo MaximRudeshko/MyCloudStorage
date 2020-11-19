@@ -1,7 +1,14 @@
 @import '../../index.scss';
 
 .filelist{
-    margin: 0 20px;
+    margin: 0 20px 20px 20px;
+    width:91%;
+    
+    &__wrapper{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
     &__header{
         padding: 10px 0;
         display:grid;
