@@ -2,9 +2,7 @@ const File = require('../models/file');
 const User = require('../models/user');
 const config = require('config')
 const fs = require('fs')
-
 const fileService = require('../services/fileService');
-const file = require('../models/file');
 
 class FileController{
     async createDir(req, res) {
@@ -49,6 +47,18 @@ class FileController{
             return res.json(files)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async searchFiles(req, res){
+        try {
+            const searchName = req.query.search
+            let files = await File.find({user: req.user.id})
+            files = files.filter(file => file.name.includes(searchName))
+            return res.json(files)
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({message: "Search error"})
         }
     }
 
@@ -104,21 +114,6 @@ class FileController{
     }
 
     async downloadFile(req, res){
-       /*  try {
-            
-            const file = await File.findOne({_id: req.query.id, user: req.user.id})
-            const path = `${config.get('filesPath')}\\${req.user.id}\\${file.path}\\${file.name}`
-
-            if(fs.existsSync(path)){
-                return res.download(path, file.name)
-            }
-
-            return res.status(400).json({message: "Download Error"})
-
-        } catch (error) {
-            console.log(error)
-            return res.status(500).json({message: "Download Error"})
-        } */
 
         try {
             const file = await File.findOne({_id: req.query.id, user: req.user.id})

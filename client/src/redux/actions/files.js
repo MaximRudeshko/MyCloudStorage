@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { hideLoader, showLoader } from './loader'
 import { addFileToUploader, changeUploaderFile, showUploader } from './uploader'
 
 const setFiles = files => {
@@ -34,6 +35,7 @@ export const addFile = file => {
 
 export const fetchFiles = (dirId, sort) => async dispatch =>  {
     try {
+        dispatch(showLoader())
         let url 
         if(dirId){
             url = `http://localhost:5001/api/files?parent=${dirId}`
@@ -52,6 +54,8 @@ export const fetchFiles = (dirId, sort) => async dispatch =>  {
         dispatch(setFiles(response.data))
     } catch (error) {
         console.log(error)
+    } finally{
+        dispatch(hideLoader())
     }
 }
 
@@ -113,7 +117,23 @@ export const deleteFile = (file) => async dispatch => {
         alert(response.data.message)
 
     } catch (error) {
-        console.log(error)
+        console.log(error.response.data.message)
+    }
+
+}
+
+export const searchFiles = (searchName) => async (dispatch) => {
+    try {
+        dispatch(showLoader())
+        const response = await axios.get(`http://localhost:5001/api/files/search?search=${searchName}`, {
+            headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+        })
+
+        dispatch(setFiles(response.data))
+        dispatch(hideLoader())
+
+    } catch (error) {
+        console.log(error.response.data.message)
     }
 
 }

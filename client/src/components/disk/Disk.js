@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFiles, setCurrentDir, setPopupVisible, uploadFile } from '../../redux/actions/files'
+import { fetchFiles, searchFiles, setCurrentDir, setPopupVisible, uploadFile } from '../../redux/actions/files'
 import  FileList  from '../fileList';
 import arrowBack from '../../assets/img/back-arrow.svg'
 import arrowDown from '../../assets/img/arrow-down.svg'
@@ -13,15 +13,20 @@ import SortIndicator from '../sortIndicator/SortIndicator';
 import Popup from '../popup/Popup';
 import { EmptyDir } from '../emptyDir';
 import Uploader from '../uploader/Uploader';
+import Loader from '../loader/Loader';
+
 
 
 const Disk = () => {
 
     const dispatch = useDispatch()
     const {files, currentDirectory, dirStack} = useSelector(state => state.files)
+    const {loading} = useSelector(state => state.loader)
     const {isVisible} = useSelector(state => state.uploader)
     const [dragEnter, setDragEnter] = React.useState(false) 
     const [sort, setSort] = React.useState('date')
+    const [search, setSearch] = React.useState('')
+    const [searchTimeout, setSearchTimeout] = React.useState(false)
 
     React.useEffect(() => {
       dispatch(fetchFiles(currentDirectory, sort))
@@ -59,6 +64,24 @@ const Disk = () => {
         files.forEach(file => dispatch(uploadFile(file, currentDirectory)))
     }
 
+    const searchChangeHandler = (e) => {
+        setSearch(e.target.value)
+        if (searchTimeout != false) {
+            clearTimeout(searchTimeout)
+        }
+        if(e.target.value != '') {
+            setSearchTimeout(setTimeout((value) => {
+                dispatch(searchFiles(value));
+            }, 500, e.target.value))
+        } else {
+            dispatch(fetchFiles(currentDirectory, sort))
+        }
+    }
+
+    if(loading){
+        return <Loader/>
+    }
+
     return (!dragEnter ?   
         <div className = 'disk' onDragEnter = {dragEnterHandler} onDragLeave= { dragLeaveHandler} onDragOver = {dragEnterHandler}>
             <h2 className = 'disk__category'>Category</h2>
@@ -81,6 +104,7 @@ const Disk = () => {
                         <input onChange = {event => uploadFilesHandler(event)} multiple = {true} className = 'disk__actions-upload-input' type = 'file' id = 'disk-input'/>
                     </div>
                 </div>
+                <input value = {search} onChange = {e => searchChangeHandler(e)} placeholder = 'Введите название файла...'/> 
                 <div className = 'disk__actions-right'>
                     <SortIndicator/>
                     {/* <div className = 'disk__actions-sorting'>
