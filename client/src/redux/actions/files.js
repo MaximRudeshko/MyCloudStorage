@@ -32,9 +32,20 @@ export const addFile = file => {
 }
 
 
-export const fetchFiles = dirId => async dispatch =>  {
+export const fetchFiles = (dirId, sort) => async dispatch =>  {
     try {
-        const response = await axios.get(`http://localhost:5001/api/files${dirId ? '?parent=' + dirId : ''}`, {
+        let url 
+        if(dirId){
+            url = `http://localhost:5001/api/files?parent=${dirId}`
+        }
+        if(sort){
+            url = `http://localhost:5001/api/files?sort=${sort}`
+        }
+        if(dirId && sort){
+            url = `http://localhost:5001/api/files?parent=${dirId}&sort=${sort}`
+        }
+
+        const response = await axios.get(url, {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
 

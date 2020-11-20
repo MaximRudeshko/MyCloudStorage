@@ -21,11 +21,13 @@ const Disk = () => {
     const {files, currentDirectory, dirStack} = useSelector(state => state.files)
     const {isVisible} = useSelector(state => state.uploader)
     const [dragEnter, setDragEnter] = React.useState(false) 
+    const [sort, setSort] = React.useState('date')
 
     React.useEffect(() => {
-      dispatch(fetchFiles(currentDirectory))
-    }, [currentDirectory])
+      dispatch(fetchFiles(currentDirectory, sort))
+    }, [currentDirectory, sort])
 
+    console.log(sort)
 
     const backDirHandler = () => {
         const dirId = dirStack.pop();
@@ -81,10 +83,15 @@ const Disk = () => {
                 </div>
                 <div className = 'disk__actions-right'>
                     <SortIndicator/>
-                    <div className = 'disk__actions-sorting'>
+                    {/* <div className = 'disk__actions-sorting'>
                         <span>Name</span>
                         <img src = {arrowDown} alt = 'arrow-down'/>
-                    </div>
+                    </div> */}
+                    <select value = {sort} onChange = {e => setSort(e.target.value)}>
+                        <option value = 'type'>По типу</option>
+                        <option value = 'date'>По дате</option>
+                        <option value = 'name'>По названию</option>
+                    </select>
                     <div className = 'disk__actions-grids'>
                         <img src = {grid1} alt = 'grid'/>
                         <img src = {grid2} alt = 'grid'/>
