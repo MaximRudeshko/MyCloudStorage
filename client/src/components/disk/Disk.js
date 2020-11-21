@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchFiles, searchFiles, setCurrentDir, setPopupVisible, uploadFile } from '../../redux/actions/files'
 import  FileList  from '../fileList';
 import arrowBack from '../../assets/img/back-arrow.svg'
-import arrowDown from '../../assets/img/arrow-down.svg'
-import grid1 from '../../assets/img/grid1.svg'
 import grid2 from '../../assets/img/grid2.svg'
+import grid2grey from '../../assets/img/grid2-active.svg'
 import grid3 from '../../assets/img/grid3.svg'
+import grid3blue from '../../assets/img/grid3-active.svg'
 
 import './disk.scss'
 import SortIndicator from '../sortIndicator/SortIndicator';
@@ -14,6 +14,7 @@ import Popup from '../popup/Popup';
 import { EmptyDir } from '../emptyDir';
 import Uploader from '../uploader/Uploader';
 import Loader from '../loader/Loader';
+import { setView } from '../../redux/actions/user';
 
 
 
@@ -27,6 +28,7 @@ const Disk = () => {
     const [sort, setSort] = React.useState('date')
     const [search, setSearch] = React.useState('')
     const [searchTimeout, setSearchTimeout] = React.useState(false)
+    const {view} = useSelector(state => state.user)
 
     React.useEffect(() => {
       dispatch(fetchFiles(currentDirectory, sort))
@@ -117,9 +119,8 @@ const Disk = () => {
                         <option value = 'name'>По названию</option>
                     </select>
                     <div className = 'disk__actions-grids'>
-                        <img src = {grid1} alt = 'grid'/>
-                        <img src = {grid2} alt = 'grid'/>
-                        <img src = {grid3} alt = 'grid'/>
+                        <img onClick = {() => dispatch(setView('plate'))} src = {view === 'plate' ? grid2 : grid2grey} alt = 'grid'/>
+                        <img onClick = {() => dispatch(setView('list'))} src = {view === 'list' ? grid3blue : grid3} alt = 'grid'/>
                     </div>
                 </div>
             </div>

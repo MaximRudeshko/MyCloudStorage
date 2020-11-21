@@ -58,3 +58,27 @@
     }
 
 }
+
+.file-plate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    width: 20%;
+    transition: all .2s ease;
+    &:hover{
+        transform: scale(1.2);
+    }
+    cursor: pointer;
+    img{
+        width: 100px;
+        height: 100px;
+    }
+    &__name{
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+    }
+}

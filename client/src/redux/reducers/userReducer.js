@@ -1,6 +1,7 @@
 const initialState = {
     currentUser: {},
-    isAuth:false
+    isAuth:false,
+    view: 'list'
 }
 
 
@@ -17,6 +18,11 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 currentUser: {},
                 isAuth: false
+            }
+        case 'SET_VIEW':
+            return {
+                ...state,
+                view: action.payload
             }
         default:
             return state

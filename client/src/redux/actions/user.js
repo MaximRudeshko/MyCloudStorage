@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { hideLoader, showLoader } from './loader'
 
 
 const setUser = (user) => {
@@ -8,18 +9,35 @@ const setUser = (user) => {
     }
 }
 
+export const logOut = () => {
+    localStorage.removeItem('token')
+    return{
+        type: 'LOGOUT'
+    }
+}
+
+export const setView = value => {
+    return {
+        type: 'SET_VIEW',
+        payload: value
+    }
+}
+
 export const onLogin = (email, password) => async dispatch => {
+    dispatch(showLoader())
     try {
+        
         const response = await axios.post('http://localhost:5001/api/auth/login', {
             email, 
             password
         })
         dispatch(setUser(response.data.user))
-        console.log(response.data)
         localStorage.setItem('token', response.data.token)
     } catch (error) {
         console.log(error)
         // catch errors....
+    } finally {
+        dispatch(hideLoader())
     }
 }
 
@@ -37,9 +55,4 @@ export const onAuth = () => async dispatch => {
     }
 }
 
-export const logOut = () => {
-    localStorage.removeItem('token')
-    return{
-        type: 'LOGOUT'
-    }
-}
+

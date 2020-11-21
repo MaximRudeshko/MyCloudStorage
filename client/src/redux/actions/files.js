@@ -124,18 +124,13 @@ export const deleteFile = (file) => async dispatch => {
 
 export const searchFiles = (searchName) => async (dispatch) => {
     try {
-        dispatch(showLoader())
         const response = await axios.get(`http://localhost:5001/api/files/search?search=${searchName}`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
-
         dispatch(setFiles(response.data))
-        dispatch(hideLoader())
-
     } catch (error) {
         console.log(error.response.data.message)
     }
-
 }
 
 
