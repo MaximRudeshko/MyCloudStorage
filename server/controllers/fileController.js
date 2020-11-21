@@ -3,6 +3,7 @@ const User = require('../models/user');
 const config = require('config')
 const fs = require('fs')
 const fileService = require('../services/fileService');
+const Uuid = require('uuid')
 
 class FileController{
     async createDir(req, res) {
@@ -133,7 +134,7 @@ class FileController{
     async deleteFile(req, res){
         try {
             const file = await File.findOne({_id: req.query.id, user: req.user.id})
-
+            console.log(req.files)
             if(!file){
                 return res.status(400).json({message: 'File not found'})
             }
@@ -143,6 +144,32 @@ class FileController{
 
         } catch (error) {
             return res.status(400).json({message: 'File Error'})
+        }
+    }
+
+    async uploadAvatar(req, res){
+        try {
+            const user = await User.findById(req.user.id)
+            const file = req.files.file
+            const avatarName = Uuid.v4()
+            user.avatar = avatarName
+            file.mv(config.get('staticPath') + '\\' + avatarName)
+            await user.save()
+            res.json(user)
+        } catch (error) {
+            return res.status(400).json({message: 'Avatar Error'})
+        }
+    }
+
+    async deleteAvatar(req, res){
+        try {
+            const user = User.findById(req.user.id)
+            fs.unlinkSync(config.get('staticPath') + '\\' + user.avatar)
+            user.avatar = null
+            await user.save()
+            return res.json(user)
+        } catch (error) {
+            return res.status(400).json({message: 'Delete avatar error'})
         }
     }
 }
