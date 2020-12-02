@@ -24,11 +24,11 @@ const Disk = () => {
     const {files, currentDirectory, dirStack} = useSelector(state => state.files)
     const {loading} = useSelector(state => state.loader)
     const {isVisible} = useSelector(state => state.uploader)
+    const {view} = useSelector(state => state.user)
     const [dragEnter, setDragEnter] = React.useState(false) 
     const [sort, setSort] = React.useState('date')
     const [search, setSearch] = React.useState('')
     const [searchTimeout, setSearchTimeout] = React.useState(false)
-    const {view} = useSelector(state => state.user)
 
     React.useEffect(() => {
       dispatch(fetchFiles(currentDirectory, sort))
@@ -109,10 +109,6 @@ const Disk = () => {
                 <input value = {search} onChange = {e => searchChangeHandler(e)} placeholder = 'Введите название файла...'/> 
                 <div className = 'disk__actions-right'>
                     <SortIndicator/>
-                    {/* <div className = 'disk__actions-sorting'>
-                        <span>Name</span>
-                        <img src = {arrowDown} alt = 'arrow-down'/>
-                    </div> */}
                     <select value = {sort} onChange = {e => setSort(e.target.value)}>
                         <option value = 'type'>По типу</option>
                         <option value = 'date'>По дате</option>
