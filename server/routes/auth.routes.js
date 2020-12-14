@@ -31,6 +31,7 @@ router.post('/registration',
         }
         const hashPassword = await bcrypt.hash(password, 15)
         const user = new User({email, password: hashPassword, name, lastName})
+        console.log(user)
         await user.save()
         await fileService.createDir(new File({user: user.id, name: ''}))
         return res.json({message: "User was created"})
@@ -48,7 +49,7 @@ router.post('/login', async (req, res) => {
         const {email, password} = req.body
 
         const user = await User.findOne({email})
-
+        
 
         if(!user){
             return res.status(400).json({message: 'User not found'})
@@ -62,6 +63,7 @@ router.post('/login', async (req, res) => {
 
         const token = jwt.sign({id: user.id}, config.get('secret-key'), {expiresIn: '1h'})
 
+        
         return res.json({
             token, 
             user : {
@@ -69,7 +71,9 @@ router.post('/login', async (req, res) => {
                 email: user.email,
                 diskSpace: user.diskSpace,
                 usedSpace: user.usedSpace,
-                avatar: user.avatar
+                avatar: user.avatar,
+                name: user.name,
+                lastName: user.lastName
             }
         })
     } catch (error) {
@@ -81,6 +85,7 @@ router.post('/login', async (req, res) => {
 router.get('/auth', authMiddleware, async (req, res) => {
     try {
         const user = await User.findOne({_id: req.user.id})
+        console.log(user)
         const token = jwt.sign({id: user.id}, config.get('secret-key'), {expiresIn: '1h'})
         return res.json({
             token,
@@ -89,7 +94,9 @@ router.get('/auth', authMiddleware, async (req, res) => {
                 email: user.email,
                 diskSpace: user.diskSpace,
                 usedSpace: user.usedSpace,
-                avatar: user.avatar
+                avatar: user.avatar,
+                name: user.name,
+                lastName: user.lastName
             } 
            
         })

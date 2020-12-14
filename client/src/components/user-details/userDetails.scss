@@ -1,0 +1,62 @@
+.user-details{
+    position: absolute;
+    z-index:10;
+    right: 0;
+    top: 40px;
+    background:#000;
+    color:#fff;
+    padding: 20px;
+    width: 400px;
+
+
+    &__header{
+        display: flex;
+    }
+
+
+    &__avatar{
+        height: 70px;
+        width: 70px;
+        margin-right: 10px;
+        input{
+            display: none
+        }
+        label{
+            height: 70px;
+            width: 70px;
+            display: block;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius:50%;
+            cursor: pointer;
+            position: relative;
+            div{
+                position: absolute;
+                bottom: -10%;
+                right: -10%;
+                background: #000;
+                width: 30px;
+                height: 30px;
+                border-radius:50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all .2s ease;
+                &:hover{
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+
+    &__body{
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    button{
+        float: right;
+    }
+
+}

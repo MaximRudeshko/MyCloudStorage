@@ -1,6 +1,6 @@
 import React from 'react';
 
-import registration from '../../services/registration';
+import {registration} from '../../redux/actions/user';
 import { Button } from '../button';
 import { Input } from '../input';
 
@@ -20,7 +20,6 @@ const RegisterForm = () => {
             <Input setValue = {setLastName} value = {lastName} placeholder = 'Введите фамилию...' type = 'text'/>
             <Input setValue = {setEmail} value = {email} placeholder = 'Введите адрес электронной почты...' type = 'text'/>
             <Input setValue = {setPassword} value = {password} placeholder = 'Введите пароль...' type = 'password'/>
-            {/* <button onClick = {() => registration(email, password, name, lastName)} >Зарегистрироваться</button> */}
             <Button text = 'Зарегистрироваться' onClick = {() => registration(email, password, name, lastName)} />
         </div>
     );

@@ -9,6 +9,7 @@ import './fileList.scss'
 const FileList = () => {
     const files = useSelector(state => state.files.files)  
     const {view} = useSelector(state => state.user)
+    console.log(files)
 
     if(view === 'list'){
         return ( 
@@ -22,7 +23,7 @@ const FileList = () => {
                     </div>
                     <div className = 'filelist__items'>
                         {files.map(file =>
-                                <FileListItem file={file}/>
+                                <FileListItem key = {''} file={file}/>
                         )}  
                     </div>
                 </div>

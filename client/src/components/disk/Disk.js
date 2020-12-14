@@ -34,7 +34,7 @@ const Disk = () => {
       dispatch(fetchFiles(currentDirectory, sort))
     }, [currentDirectory, sort])
 
-    console.log(sort)
+    
 
     const backDirHandler = () => {
         const dirId = dirStack.pop();

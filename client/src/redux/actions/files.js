@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { hideLoader, showLoader } from './loader'
 import { addFileToUploader, changeUploaderFile, showUploader } from './uploader'
+import {setUser} from './user'
 
 const setFiles = files => {
     return {
@@ -82,7 +83,8 @@ export const uploadFile = (file, dirId) => {
                     }
                 }
             });
-            dispatch(addFile(response.data))
+            dispatch(setUser(response.data.user))
+            dispatch(addFile(response.data.dbFile))
         } catch (e) {
             alert(e.response.data.message)
         }
@@ -114,6 +116,7 @@ export const deleteFile = (file) => async dispatch => {
             }
         })
         dispatch(deleteFileAction(file._id))
+        dispatch(setUser(response.data.user))
         alert(response.data.message)
 
     } catch (error) {
@@ -122,7 +125,7 @@ export const deleteFile = (file) => async dispatch => {
 
 }
 
-export const searchFiles = (searchName) => async (dispatch) => {
+export const searchFiles = (searchName, currentDir) => async (dispatch) => {
     try {
         const response = await axios.get(`http://localhost:5001/api/files/search?search=${searchName}`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}

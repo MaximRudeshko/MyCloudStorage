@@ -55,8 +55,9 @@ class FileController{
     async searchFiles(req, res){
         try {
             const searchName = req.query.search
+            console.log(req.params)
             let files = await File.find({user: req.user.id})
-            files = files.filter(file => file.name.includes(searchName))
+            files = files.filter(file => file.name.includes(searchName) && file.parent )
             return res.json(files)
         } catch (error) {
             console.log(error)
@@ -66,16 +67,18 @@ class FileController{
 
     async uploadFile(req, res) {
         try {
+            
             const file = req.files.file
-
             const parent = await File.findOne({user: req.user.id, _id: req.body.parent})
             const user = await User.findOne({_id: req.user.id})
 
             if (user.usedSpace + file.size > user.diskSpace) {
                 return res.status(400).json({message: 'There no space on the disk'})
             }
+            console.log(user)
 
             user.usedSpace = user.usedSpace + file.size
+            user.freeSpace = user.diskSpace - user.usedSpace
 
             let path;
             if (parent) {
@@ -105,10 +108,11 @@ class FileController{
                 user: user._id
             })
 
+            
             await dbFile.save()
             await user.save()
 
-            res.json(dbFile)
+            res.json({dbFile, user})
         } catch (e) {
             console.log(e)
             return res.status(500).json({message: "Upload error"})
@@ -135,13 +139,17 @@ class FileController{
     async deleteFile(req, res){
         try {
             const file = await File.findOne({_id: req.query.id, user: req.user.id})
-            console.log(req.files)
+            const user = await User.findOne({_id: req.user.id})
+            
+            user.usedSpace = user.usedSpace - file.size
+            user.freeSpace = user.diskSpace - user.usedSpace
+
             if(!file){
                 return res.status(400).json({message: 'File not found'})
             }
             fileService.deleteFile(file)
             await file.remove()
-            return res.json({message: 'File was deleted'})
+            return res.json({message: 'File was deleted', user})
 
         } catch (error) {
             return res.status(400).json({message: 'File Error'})
@@ -155,8 +163,18 @@ class FileController{
             const avatarName = Uuid.v4() + ".jpg"
             file.mv(config.get('staticPath') + "\\" + avatarName)
             user.avatar = avatarName
+            console.log(user.avatar)
             await user.save()
-            return res.json(user)
+            return res.json({
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    diskSpace: user.diskSpace,
+                    usedSpace: user.usedSpace,
+                    avatar: user.avatar,
+                    name: user.name,
+                    lastName: user.lastName
+            }})
         } catch (e) {
             console.log(e)
             return res.status(400).json({message: 'Upload avatar error'})
@@ -169,7 +187,16 @@ class FileController{
             fs.unlinkSync(config.get('staticPath') + '\\' + user.avatar)
             user.avatar = null
             await user.save()
-            return res.json(user)
+            return res.json({
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    diskSpace: user.diskSpace,
+                    usedSpace: user.usedSpace,
+                    avatar: user.avatar,
+                    name: user.name,
+                    lastName: user.lastName
+            }})
         } catch (error) {
             return res.status(400).json({message: 'Delete avatar error'})
         }

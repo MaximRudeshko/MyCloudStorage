@@ -2,7 +2,7 @@ import axios from 'axios'
 import { hideLoader, showLoader } from './loader'
 
 
-const setUser = (user) => {
+export const setUser = (user) => {
     return {
         type: 'SET_USER',
         payload: user
@@ -23,6 +23,28 @@ export const setView = value => {
     }
 }
 
+
+export const registration = async (email, password, name, lastName) => {
+    try {
+        const res = await axios.post('http://localhost:5001/api/auth/registration', {
+            email,
+            password,
+            name,
+            lastName
+        }
+    )
+
+    alert(res.data.message)
+    //need create component with notification about ...
+    } catch (error) {
+        alert(error)
+    }
+}
+
+
+
+
+
 export const onLogin = (email, password) => async dispatch => {
     dispatch(showLoader())
     try {
@@ -31,10 +53,12 @@ export const onLogin = (email, password) => async dispatch => {
             email, 
             password
         })
+        console.log(response.data)
         dispatch(setUser(response.data.user))
         localStorage.setItem('token', response.data.token)
     } catch (error) {
         console.log(error)
+        dispatch(hideLoader())
         // catch errors....
     } finally {
         dispatch(hideLoader())
@@ -64,7 +88,8 @@ export const uploadAvatar = (file) => async (dispatch) => {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
 
-        dispatch(setUser(response.data))
+        console.log(formData, response.data)
+        dispatch(setUser(response.data.user))
     } catch (error) {
         console.log(error)
     }
@@ -76,7 +101,7 @@ export const deleteAvatar = () => async dispatch => {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
 
-        dispatch(setUser(response.data))
+        dispatch(setUser(response.data.user))
     } catch (error) {
         console.log(error.response.data.message)
     }
